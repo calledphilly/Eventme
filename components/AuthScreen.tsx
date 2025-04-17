@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { signIn, signUp } from '../components/utils/auth'; // Fonction signUp et signIn
+import { signIn, signUp } from '../components/utils/auth';
 import MyButton from './MyButton';
 import MyInput from './MyInput';
 import { ThemedView } from './ThemedView';
 
 export default function AuthScreen({ navigation }: { navigation: any }) {
-	// Ajout de navigation comme prop
+
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [name, setName] = useState(''); // Nouveau state pour le champ name
+	const [name, setName] = useState('');
 	const [isLogin, setIsLogin] = useState(true);
 	const [errorMessage, setErrorMessage] = useState('');
 
@@ -20,14 +20,13 @@ export default function AuthScreen({ navigation }: { navigation: any }) {
 		if (isLogin) {
 			response = await signIn(email, password);
 		} else {
-			response = await signUp(email, password, name); // Passer name lors de l'inscription
+			response = await signUp(email, password, name);
 		}
 
 		if (response.error) {
 			setErrorMessage(response.error.message);
 		} else {
 			console.log('Authentification réussie !');
-			// Après une connexion réussie, on redirige vers EventList
 			navigation.navigate('EventList');
 		}
 	};

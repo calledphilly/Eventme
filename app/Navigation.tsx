@@ -1,13 +1,32 @@
-// Navigation.tsx
-import * as React from "react";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import EventList from "../components/EventList";
+import EventDetail from "../components/EventDetail";
+import AuthScreen from "../components/AuthScreen";
+import MyEvents from "../components/MyEvents";
+import { useAuth } from "../hooks/useAuth";
 import { View, ActivityIndicator } from "react-native";
-import EventList from "@/components/EventList";
-import EventDetail from "@/components/EventDetail";
-import AuthScreen from "@/components/AuthScreen";
-import { useAuth } from "@/hooks/useAuth";
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+
+function AppDrawer() {
+  return (
+    <Drawer.Navigator initialRouteName="EventList">
+      <Drawer.Screen
+        name="EventList"
+        component={EventList}
+        options={{ title: "📅 Tous les événements" }}
+      />
+      <Drawer.Screen
+        name="MyEvents"
+        component={MyEvents}
+        options={{ title: "🎫 Mes événements" }}
+      />
+    </Drawer.Navigator>
+  );
+}
 
 export default function Navigation() {
   const { session, loading } = useAuth();
@@ -21,10 +40,15 @@ export default function Navigation() {
   }
 
   return (
-    <Stack.Navigator initialRouteName={session ? "EventList" : "AuthScreen"}>
-      <Stack.Screen name="EventList" component={EventList} />
-      <Stack.Screen name="EventDetail" component={EventDetail} />
-      <Stack.Screen name="AuthScreen" component={AuthScreen} />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {session ? (
+        <>
+          <Stack.Screen name="Home" component={AppDrawer} />
+          <Stack.Screen name="EventDetail" component={EventDetail} />
+        </>
+      ) : (
+        <Stack.Screen name="AuthScreen" component={AuthScreen} />
+      )}
     </Stack.Navigator>
   );
 }
