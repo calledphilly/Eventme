@@ -19,6 +19,7 @@ const MyInput = ({
 			onChangeText={onChangeText}
 			value={value}
 			secureTextEntry={secureTextEntry}
+			placeholderTextColor='#666'
 		/>
 	);
 };
@@ -27,9 +28,8 @@ export default MyInput;
 
 const styles = StyleSheet.create({
 	input: {
-		width:'100%',
+		width: '100%',
 		padding: 15,
-		borderColor: 'black',
 		borderRadius: 10,
 		boxShadow: 'inset 0 0 10 rgba(0, 0, 0, 0.2)',
 	},

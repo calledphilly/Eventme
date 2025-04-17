@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { signIn, signUp } from '../components/utils/auth';
 import MyButton from './MyButton';
 import MyInput from './MyInput';
-import { ThemedView } from './ThemedView';
 
 export default function AuthScreen({ navigation }: { navigation: any }) {
-
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
@@ -32,8 +30,8 @@ export default function AuthScreen({ navigation }: { navigation: any }) {
 	};
 
 	return (
-		<ThemedView style={styles.container}>
-			<ThemedView style={styles.inputLayer}>
+		<View style={styles.container}>
+			<View style={styles.inputLayer}>
 				{!isLogin && (
 					<MyInput
 						placeholder='Enter your name'
@@ -53,7 +51,7 @@ export default function AuthScreen({ navigation }: { navigation: any }) {
 					onChangeText={setPassword}
 				/>
 				{errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
-			</ThemedView>
+			</View>
 			<MyButton
 				title={isLogin ? 'Se connecter' : "S'inscrire"}
 				onPress={handleAuth}
@@ -65,7 +63,7 @@ export default function AuthScreen({ navigation }: { navigation: any }) {
 					? 'Pas encore de compte ? Inscris-toi'
 					: 'Déjà un compte ? Connecte-toi'}
 			</Text>
-		</ThemedView>
+		</View>
 	);
 }
 
@@ -77,6 +75,7 @@ const styles = StyleSheet.create({
 		rowGap: 60,
 		padding: 16,
 		width: '100%',
+		backgroundColor: '#fff',
 	},
 	inputLayer: {
 		width: '100%',

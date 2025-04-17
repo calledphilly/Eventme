@@ -7,13 +7,13 @@ import { ThemedView } from '../ThemedView';
 const MyForm = ({ style }: { style: StyleProp<ViewStyle> }) => {
 	return (
 		<View style={style}>
-			<ThemedView style={styles.mainLayer}>
-				<ThemedView style={styles.inputLayer}>
+			<View style={styles.mainLayer}>
+				<View style={styles.inputLayer}>
 					<MyInput placeholder='Enter your username' />
 					<MyInput placeholder='Enter your password' />
-				</ThemedView>
+				</View>
 				<MyButton title='Se connecter' />
-			</ThemedView>
+			</View>
 		</View>
 	);
 };
