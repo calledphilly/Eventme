@@ -37,18 +37,18 @@ export default function AuthScreen({ navigation }: { navigation: any }) {
 			<ThemedView style={styles.inputLayer}>
 				{!isLogin && (
 					<MyInput
-						placeholder='Nom'
+						placeholder='Enter your name'
 						value={name}
 						onChangeText={setName}
 					/>
 				)}
 				<MyInput
-					placeholder='Email'
+					placeholder='Enter your email'
 					value={email}
 					onChangeText={setEmail}
 				/>
 				<MyInput
-					placeholder='Mot de passe'
+					placeholder='Enter your password'
 					secureTextEntry
 					value={password}
 					onChangeText={setPassword}
