@@ -1,3 +1,6 @@
+import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import { useEvents } from "../hooks/useEvents";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -70,14 +73,12 @@ export default function EventList() {
       if (error) {
         console.error("Erreur lors de la récupération des événements:", error);
       } else {
-        // Filtrage selon les cases cochées
         let filteredEvents = data.filter((event) => {
           if (!showFreeEvents && !event.is_premium) return false;
           if (!showPremiumEvents && event.is_premium) return false;
           return true;
         });
 
-        // Tri par distance
         if (userLocation) {
           filteredEvents = [...filteredEvents].sort((a, b) => {
             const distA = getDistanceKm(userLocation, {

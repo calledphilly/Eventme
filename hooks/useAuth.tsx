@@ -68,3 +68,4 @@ export const useAuth = () => {
 
   return { session, user, loading, logout };
 };
+

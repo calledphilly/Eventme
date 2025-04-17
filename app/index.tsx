@@ -4,7 +4,6 @@ import { useAuth } from "../hooks/useAuth";
 import Navigation from "./Navigation";
 import 'react-native-gesture-handler';
 
-
 export default function Index() {
   const { loading } = useAuth();
 
