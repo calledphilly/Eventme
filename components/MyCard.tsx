@@ -10,7 +10,13 @@ type PropsCard = {
 	description?: string;
 	image?: string;
 };
-const Card = ({ title, time, localisation, description, image }: PropsCard) => {
+const MyCard = ({
+	title,
+	time,
+	localisation,
+	description,
+	image,
+}: PropsCard) => {
 	return (
 		<View style={styles.view}>
 			<Image
@@ -31,7 +37,7 @@ const Card = ({ title, time, localisation, description, image }: PropsCard) => {
 	);
 };
 
-export default Card;
+export default MyCard;
 
 const styles = StyleSheet.create({
 	view: {

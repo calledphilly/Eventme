@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 
+import MyCard from '@/components/MyCard';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import Card from '@/components/Card';
+import { IconSymbol } from '@/components/ui/IconSymbol';
 
 export default function TabTwoScreen() {
 	return (
@@ -25,10 +25,10 @@ export default function TabTwoScreen() {
 					Behold event list !
 				</ThemedText>
 			</ThemedView>
-			<ThemedView style={{marginTop:'5%'}}>
-				<Card/>
+			<ThemedView style={{ marginTop: '5%' }}>
+				<MyCard />
 			</ThemedView>
-			</ParallaxScrollView>
+		</ParallaxScrollView>
 	);
 }
 
