@@ -3,10 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { signIn, signUp } from '../components/utils/auth';
 import MyButton from './MyButton';
 import MyInput from './MyInput';
-import { ThemedView } from './ThemedView';
 
 export default function AuthScreen({ navigation }: { navigation: any }) {
-
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [name, setName] = useState('');
@@ -77,7 +75,7 @@ const styles = StyleSheet.create({
 		rowGap: 60,
 		padding: 16,
 		width: '100%',
-		backgroundColor:'#fff',
+		backgroundColor: '#fff',
 	},
 	inputLayer: {
 		width: '100%',
