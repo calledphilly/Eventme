@@ -1,7 +1,9 @@
 import React from "react";
 import { View, ActivityIndicator } from "react-native";
-import { useAuth } from "./hooks/useAuth";
-import Navigation from "./Navigation"; // Importation du composant de navigation qui contient le NavigationContainer
+import { useAuth } from "../hooks/useAuth";
+import Navigation from "./Navigation";
+import 'react-native-gesture-handler';
+
 
 export default function Index() {
   const { loading } = useAuth();
@@ -14,5 +16,5 @@ export default function Index() {
     );
   }
 
-  return <Navigation />;  // Ici, nous affichons simplement le composant Navigation
+  return <Navigation />;
 }

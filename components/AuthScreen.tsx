@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, TextInput, Button, Text, StyleSheet } from "react-native";
 import { signUp, signIn } from "../components/utils/auth";
+import { useAuth } from "../hooks/useAuth";
 
-export default function AuthScreen() {
+export default function AuthScreen({ navigation }: { navigation: any }) {
+  const { session } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (session) {
+      navigation.navigate("EventList");
+    }
+  }, [session, navigation]);
 
   const handleAuth = async () => {
     setErrorMessage("");
@@ -15,18 +24,27 @@ export default function AuthScreen() {
     if (isLogin) {
       response = await signIn(email, password);
     } else {
-      response = await signUp(email, password);
+      response = await signUp(email, password, name);
     }
 
     if (response.error) {
       setErrorMessage(response.error.message);
     } else {
       console.log("Authentification réussie !");
+      navigation.navigate("EventList");
     }
   };
 
   return (
     <View style={styles.container}>
+      {!isLogin && (
+        <TextInput
+          style={styles.input}
+          placeholder="Nom"
+          value={name}
+          onChangeText={setName}
+        />
+      )}
       <TextInput
         style={styles.input}
         placeholder="Email"
