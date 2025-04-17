@@ -1,7 +1,8 @@
 import React from "react";
 import { View, ActivityIndicator } from "react-native";
-import { useAuth } from "./hooks/useAuth";
+
 import Navigation from "./Navigation"; // Importation du composant de navigation qui contient le NavigationContainer
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Index() {
   const { loading } = useAuth();

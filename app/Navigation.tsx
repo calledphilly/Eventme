@@ -1,11 +1,11 @@
 // Navigation.tsx
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import EventList from "./components/EventList"; // Ajuste le chemin si nécessaire
-import EventDetail from "./components/EventDetail"; // Ajuste le chemin si nécessaire
-import AuthScreen from "./components/AuthScreen"; // Ajuste le chemin si nécessaire
-import { useAuth } from "./hooks/useAuth";
 import { View, ActivityIndicator } from "react-native";
+import EventList from "@/components/EventList";
+import EventDetail from "@/components/EventDetail";
+import AuthScreen from "@/components/AuthScreen";
+import { useAuth } from "@/hooks/useAuth";
 
 const Stack = createStackNavigator();
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import MyButton from './MyButton';
 import { ThemedText } from './ThemedText';
 import { ThemedView } from './ThemedView';
@@ -10,9 +10,9 @@ type PropsCard = {
 	description?: string;
 	image?: string;
 };
-const Card = ({ title, time, localisation, description, image }: PropsCard) => {
+const MyCard = ({ title, time, localisation, description, image }: PropsCard) => {
 	return (
-		<View style={styles.view}>
+		<ThemedView style={styles.view}>
 			<Image
 				style={styles.image}
 				source={require('@/assets/images/adaptive-icon.png')}
@@ -27,11 +27,11 @@ const Card = ({ title, time, localisation, description, image }: PropsCard) => {
 				<MyButton title='Je participe !' />
 				<MyButton title='Ajouter à mes events' />
 			</ThemedView>
-		</View>
+		</ThemedView>
 	);
 };
 
-export default Card;
+export default MyCard;
 
 const styles = StyleSheet.create({
 	view: {
