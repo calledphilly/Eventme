@@ -1,9 +1,9 @@
 import { Image, StyleSheet } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import MyForm from '@/components/ui/MyForm';
 
 export default function HomeScreen() {
 	return (
@@ -15,24 +15,20 @@ export default function HomeScreen() {
 					style={styles.reactLogo}
 				/>
 			}>
-			<ThemedView style={styles.titleContainer}>
+			<ThemedView>
 				<ThemedText
 					type='title'
-					style={{ textAlign: 'center' }}>
-					EventMe
+					style={styles.title}>
+					EventMe !
 				</ThemedText>
-				<HelloWave />
 			</ThemedView>
+			<MyForm style={{ marginTop: '10%' }} />
 		</ParallaxScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
-	titleContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 8,
-	},
+	title: { textAlign: 'center' },
 	stepContainer: {
 		gap: 8,
 		marginBottom: 8,

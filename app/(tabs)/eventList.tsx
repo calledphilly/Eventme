@@ -2,6 +2,9 @@ import { StyleSheet } from 'react-native';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import Card from '@/components/Card';
 
 export default function TabTwoScreen() {
 	return (
@@ -14,7 +17,18 @@ export default function TabTwoScreen() {
 					name='chevron.left.forwardslash.chevron.right'
 					style={styles.headerImage}
 				/>
-			}></ParallaxScrollView>
+			}>
+			<ThemedView>
+				<ThemedText
+					type='title'
+					style={{ textAlign: 'center' }}>
+					Behold event list !
+				</ThemedText>
+			</ThemedView>
+			<ThemedView style={{marginTop:'5%'}}>
+				<Card/>
+			</ThemedView>
+			</ParallaxScrollView>
 	);
 }
 
