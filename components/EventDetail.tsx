@@ -1,6 +1,6 @@
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { supabase } from '../components/utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
@@ -8,11 +8,14 @@ import MyButton from './MyButton';
 import { getDistanceKm } from './utils/distance';
 
 export default function EventDetail() {
-	const route = useRoute();
+	const route = useRoute<RouteProp<{ params: { event: any } }>>();
 	const navigation = useNavigation();
 	const { event } = route.params;
 	const { session } = useAuth();
-	const [userLocation, setUserLocation] = useState(null);
+	const [userLocation, setUserLocation] = useState<{
+		latitude: number;
+		longitude: number;
+	} | null>(null);
 
 	useEffect(() => {
 		const getLocation = async () => {
@@ -88,40 +91,47 @@ export default function EventDetail() {
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 20,
+		padding: 24,
 		flex: 1,
 		backgroundColor: '#fff',
-	},itemLayer:{rowGap:10},
+		rowGap: 40,
+	},
+	itemLayer: {
+		rowGap: 32,
+	},
 	title: {
-		fontSize: 26,
+		fontSize: 32,
 		fontWeight: 'bold',
-		marginBottom: 20,
+		lineHeight: 40,
 	},
 	date: {
-		fontSize: 16,
-		marginBottom: 10,
+		fontSize: 18,
+		lineHeight: 24,
 	},
 	description: {
 		fontSize: 16,
-		marginBottom: 20,
+		lineHeight: 24,
 	},
 	premium: {
 		color: 'gold',
-		marginTop: 10,
+		fontSize: 16,
+		fontWeight: '600',
 	},
 	distance: {
 		fontSize: 16,
 		color: '#000',
+		lineHeight: 24,
 	},
 	categoryContainer: {
 		backgroundColor: 'black',
-		paddingVertical: 6,
-		paddingHorizontal: 12,
+		paddingVertical: 8,
+		paddingHorizontal: 16,
 		borderRadius: 20,
 		alignSelf: 'flex-start',
 	},
 	categoryText: {
 		color: 'white',
 		fontWeight: '700',
+		fontSize: 14,
 	},
 });

@@ -1,5 +1,5 @@
 import { Picker } from '@react-native-picker/picker';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import {
@@ -13,16 +13,34 @@ import { supabase } from '../components/utils/supabaseClient';
 import MyInput from './MyInput';
 import { getDistanceKm } from './utils/distance';
 
+interface Event {
+	id: number;
+	title: string;
+	description: string;
+	category: string;
+	is_premium: boolean;
+	latitude: number;
+	longitude: number;
+	date: string;
+}
+
+type RootStackParamList = {
+	EventDetail: { event: Event };
+};
+
 export default function EventList() {
-	const [events, setEvents] = useState([]);
-	const [categories, setCategories] = useState([]);
+	const [events, setEvents] = useState<Event[]>([]);
+	const [categories, setCategories] = useState<string[]>([]);
 	const [selectedCategory, setSelectedCategory] = useState('Tous');
 	const [searchQuery, setSearchQuery] = useState('');
-	const [userLocation, setUserLocation] = useState(null);
+	const [userLocation, setUserLocation] = useState<{
+		latitude: number;
+		longitude: number;
+	} | null>(null);
 	const [showFreeEvents, setShowFreeEvents] = useState(true);
 	const [showPremiumEvents, setShowPremiumEvents] = useState(true);
 
-	const navigation = useNavigation();
+	const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
 	useEffect(() => {
 		const getLocation = async () => {
@@ -109,7 +127,7 @@ export default function EventList() {
 		showPremiumEvents,
 	]);
 
-	const handleEventPress = (event) => {
+	const handleEventPress = (event: Event) => {
 		navigation.navigate('EventDetail', { event });
 	};
 
