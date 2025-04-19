@@ -41,11 +41,7 @@ export const useAuth = () => {
               .eq('id', newSession.user.id)
               .single();
 
-            if (error) {
-              console.error("Erreur de récupération des données utilisateur:", error.message);
-            } else {
               setUser(userData);
-            }
           };
 
           fetchUserData();
