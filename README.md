@@ -73,7 +73,7 @@ L’application est structurée de façon modulaire avec :
 ### 1. Cloner le repo
 
 ```bash
-git clone https://github.com/ton-pseudo/eventme
+git clone https://github.com/calledphilly/eventme
 cd eventme
 ```
 
