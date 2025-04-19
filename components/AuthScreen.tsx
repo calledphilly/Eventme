@@ -25,7 +25,6 @@ export default function AuthScreen({ navigation }: { navigation: any }) {
 			setErrorMessage(response.error.message);
 		} else {
 			console.log('Authentification réussie !');
-			navigation.navigate('EventList');
 		}
 	};
 

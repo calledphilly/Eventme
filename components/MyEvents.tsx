@@ -1,4 +1,6 @@
 import * as Location from 'expo-location';
+import * as Notifications from 'expo-notifications';
+import * as Device from 'expo-device';
 import React, { useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
@@ -11,6 +13,8 @@ import {
 import { useAuth } from '../hooks/useAuth';
 import { getDistanceKm } from './utils/distance';
 import { supabase } from './utils/supabaseClient';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 export default function MyEvents() {
 	const [events, setEvents] = useState([]);
@@ -18,62 +22,95 @@ export default function MyEvents() {
 	const [loading, setLoading] = useState(true);
 	const [showUpcoming, setShowUpcoming] = useState(true);
 	const { session } = useAuth();
-	useEffect(() => {
-		const fetchLocationAndEvents = async () => {
-			setLoading(true);
 
-			// 1. Demander la localisation
-			const { status } = await Location.requestForegroundPermissionsAsync();
-			if (status !== 'granted') {
-				console.warn('Permission localisation refusée');
-				setLoading(false);
-				return;
+	async function registerForPushNotificationsAsync() {
+		if (Device.isDevice) {
+			const { status: existingStatus } = await Notifications.getPermissionsAsync();
+			let finalStatus = existingStatus;
+			if (existingStatus !== 'granted') {
+				const { status } = await Notifications.requestPermissionsAsync();
+				finalStatus = status;
 			}
-
-			const loc = await Location.getCurrentPositionAsync({});
-			const location = {
-				latitude: loc.coords.latitude,
-				longitude: loc.coords.longitude,
-			};
-			setUserLocation(location); // utile si tu veux l'afficher ailleurs
-
-			// 2. Charger les événements seulement après avoir obtenu la localisation
-			if (!session?.user?.id) {
-				setLoading(false);
-				return;
+			if (finalStatus !== 'granted') {
+				console.warn('Permission de notification refusée');
+				return false;
 			}
+			return true;
+		}
+	}
 
-			const { data, error } = await supabase
-				.from('event_participants')
-				.select('events (*)')
-				.eq('user_id', session.user.id);
+	useFocusEffect(
+		useCallback(() => {
+			const fetchLocationAndEvents = async () => {
+				setLoading(true);
 
-			if (error) {
-				console.error('Erreur lors du chargement de vos événements:', error);
-				setLoading(false);
-				return;
-			}
+				await registerForPushNotificationsAsync();
 
-			// 3. Enrichir avec les distances
-			const enriched = data.map(({ events }) => {
-				if (location && events.latitude && events.longitude) {
-					return {
-						...events,
-						distance: getDistanceKm(location, {
-							latitude: events.latitude,
-							longitude: events.longitude,
-						}),
-					};
+				const { status } = await Location.requestForegroundPermissionsAsync();
+				if (status !== 'granted') {
+					console.warn('Permission localisation refusée');
+					setLoading(false);
+					return;
 				}
-				return events;
-			});
 
-			setEvents(enriched);
-			setLoading(false);
-		};
+				const loc = await Location.getCurrentPositionAsync({});
+				const location = {
+					latitude: loc.coords.latitude,
+					longitude: loc.coords.longitude,
+				};
+				setUserLocation(location);
 
-		fetchLocationAndEvents();
-	}, [session]);
+				if (!session?.user?.id) {
+					setLoading(false);
+					return;
+				}
+
+				const { data, error } = await supabase
+					.from('event_participants')
+					.select('events (*)')
+					.eq('user_id', session.user.id);
+
+				if (error) {
+					console.error('Erreur lors du chargement de vos événements:', error);
+					setLoading(false);
+					return;
+				}
+
+				const now = new Date();
+
+				const enriched = data.map(({ events }) => {
+					const eventDate = new Date(events.date);
+
+					// Notification si événement dans < 24h
+					if (eventDate.getTime() - now.getTime() > 0 && eventDate.getTime() - now.getTime() < 24 * 60 * 60 * 1000) {
+						Notifications.scheduleNotificationAsync({
+							content: {
+								title: '⏰ Événement à venir !',
+								body: `Rappel : "${events.title}" c’est bientôt !`,
+							},
+							trigger: null, // Envoie immédiate
+						});
+					}
+
+					if (location && events.latitude && events.longitude) {
+						return {
+							...events,
+							distance: getDistanceKm(location, {
+								latitude: events.latitude,
+								longitude: events.longitude,
+							}),
+						};
+					}
+					return events;
+				});
+
+				setEvents(enriched);
+				setLoading(false);
+			};
+
+			fetchLocationAndEvents();
+		}, [session])
+	);
 
 	const handleCancelParticipation = async (eventId) => {
 		const { error } = await supabase
@@ -97,7 +134,6 @@ export default function MyEvents() {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>🎫 Mes événements</Text>
-
 			<View style={styles.toggleContainer}>
 				<TouchableOpacity
 					onPress={() => setShowUpcoming(true)}

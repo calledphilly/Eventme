@@ -1,11 +1,12 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { supabase } from '../components/utils/supabaseClient';
 import { useAuth } from '../hooks/useAuth';
 import MyButton from './MyButton';
 import { getDistanceKm } from './utils/distance';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function EventDetail() {
 	const route = useRoute<RouteProp<{ params: { event: any } }>>();
@@ -59,7 +60,13 @@ export default function EventDetail() {
 
 	return (
 		<View style={styles.container}>
+			<TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+				<Ionicons name="arrow-back" size={24} color="black" />
+				<Text style={styles.backText}>Retour</Text>
+			</TouchableOpacity>
+
 			<Text style={styles.title}>{event.title}</Text>
+
 			<View style={styles.itemLayer}>
 				<Text style={styles.date}>
 					📅 {new Date(event.date).toLocaleDateString()}
@@ -82,7 +89,7 @@ export default function EventDetail() {
 			</View>
 
 			<MyButton
-				title='Je participe'
+				title="Je participe"
 				onPress={handleJoinEvent}
 			/>
 		</View>
@@ -95,6 +102,15 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#fff',
 		rowGap: 40,
+	},
+	backButton: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 8,
+		marginBottom: 8,
+	},
+	backText: {
+		fontSize: 16,
 	},
 	itemLayer: {
 		rowGap: 32,
