@@ -1,50 +1,127 @@
-# Welcome to your Expo app 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# 📱 Eventme
 
-## Get started
+**Eventme** est une application mobile développée avec **React Native** et **Supabase**, qui permet aux utilisateurs de découvrir, suivre et rejoindre des événements autour d’eux en fonction de leurs centres d’intérêt. Le tout avec une interface fluide, géolocalisation, filtres personnalisés et authentification sécurisée.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🏗️ Architecture du projet
 
-2. Start the app
+L’application est structurée de façon modulaire avec :
 
-   ```bash
-    npx expo start
-   ```
+- `React Navigation` :
+  - Stack principal pour le flux général (auth, app, détails)
+  - Drawer secondaire pour la navigation interne (`Tous les événements`, `Mes événements`)
+- `Supabase` :
+  - Authentification email/mot de passe
+  - Stockage des utilisateurs, événements et participations
+- `expo-location` pour obtenir la position actuelle de l’utilisateur
+- `expo-notifications` pour les rappels d’événements (préparé)
+- `Context API` pour gérer la session utilisateur
+- `StyleSheet.create()` pour tout le stylisme
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## ✨ Fonctionnalités implémentées
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### ✅ Authentification
+- Inscription et connexion avec email/mot de passe via Supabase
+- Gestion de la session utilisateur avec `Context`
 
-## Get a fresh project
+### ✅ Liste des événements
+- Affichage de tous les événements dans un écran principal
+- Vue sous forme de carte avec date, titre, premium ou non
+- Calcul et affichage de la **distance entre l'utilisateur et chaque événement**
 
-When you're ready, run:
+### ✅ Détail d’un événement
+- Écran de détails avec :
+  - Titre, description, date
+  - Catégorie stylisée
+  - Tag **premium** si applicable
+  - Distance depuis l’utilisateur (calculée dynamiquement)
+- Bouton “Je participe” qui inscrit l’utilisateur dans la table `event_participants`
+- Navigation fluide avec bouton retour
+
+### ✅ Mes événements
+- Événements à venir et événements passés affichés dans deux blocs
+- Affichage dynamique en fonction de la date
+- Bouton pour **annuler une participation**
+
+### ✅ Filtres
+- Filtrage par **catégorie** dans l’écran des événements
+- Filtrage si premium/gratuit
+
+### ✅ Géolocalisation
+- Autorisation et récupération automatique de la position actuelle avec `expo-location`
+- Calcul précis de la distance à vol d’oiseau pour chaque événement
+
+### ✅ Notifications
+- L'utilisateur est notifié lorsque l'évenement auquel il est inscrit commence dans un jour.
+
+---
+
+## 📦 Supabase : structure utilisée
+
+- `users`: stocke les infos utilisateur (auth + nom personnalisé)
+- `events`: chaque événement contient une date, description, localisation (latitude/longitude), catégorie, premium
+- `event_participants`: enregistre chaque participation avec horodatage
+
+---
+
+## 🛠 Installation et lancement
+
+### 1. Cloner le repo
 
 ```bash
-npm run reset-project
+git clone https://github.com/ton-pseudo/eventme
+cd eventme
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Installer les dépendances
 
-## Learn more
+```bash
+npm install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+### 3. Lancer le projet
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npx expo start
+```
 
-## Join the community
+> Scanne le QR Code avec **Expo Go** sur ton téléphone pour tester l’app.
 
-Join our community of developers creating universal apps.
+---
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 📸 Aperçu des écrans
+
+- **Écran d’accueil** : tous les événements, avec filtres
+- **Détail d’événement** : infos complètes + inscription
+- **Mes événements** : événements à venir + passés
+- **Connexion / Inscription** : authentification sécurisée Supabase
+
+---
+
+## 📚 Technologies utilisées
+
+- **React Native**
+- **TypeScript**
+- **Expo Go**
+- **Supabase (auth + base de données)**
+- **expo-location**
+- **React Navigation (stack + drawer)**
+- **Context API**
+- **StyleSheet (Flexbox)**
+
+---
+
+## ✅ Ce qui fonctionne
+
+- Authentification complète avec Supabase
+- Géolocalisation utilisateur (expo-location)
+- Inscription à un événement
+- Affichage de la distance
+- Séparation événements passés / futurs
+- Navigation fluide (stack + drawer)
+- Gestion de la session avec Context
+- UI responsive et propre
